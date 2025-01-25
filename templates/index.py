@@ -106,6 +106,8 @@
             <p class="mb-0">FH29+669, Mobil Estate Rd, Aja, Lekki 106104,<br>Lagos, Nigeria.</p>
         </div>
     </div>
+    
+    <div class="text-center"> {{ response }} </div>
 
     <!-- House Image -->
     <div class="mb-3 section home1">

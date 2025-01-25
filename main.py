@@ -36,6 +36,9 @@ database = 'kelab'
 def index():
     app_name = "Kaleb"
     title = 'Welcome to Kaleb!'
+    response = ""
+    
+    
     try:
         # Connect to MySQL
         conn = pymysql.connect(host='localhost', user='root', password='08109214791Chido#', database='kelab')
@@ -43,18 +46,21 @@ def index():
 
         # Execute a query (example: fetch all rows from a table)
         cursor.execute("SHOW TABLES")
-        row = cursor.fetchall()
+        rows = cursor.fetchall()
         
-        #cursor.execute("create table IF NOT EXISTS users(id INT AUTO_INCREMENT, first_name VARCHAR(30) NOT NULL,last_name VARCHAR(30) NOT NULL,middle_name VARCHAR(30) NULL, user_name VARCHAR(20) NOT NULL,email VARCHAR(60) NOT NULL,phone VARCHAR(20) NULL,password VARCHAR(50) NOT NULL,profile_pics VARCHAR(100) NULL,address VARCHAR(100) NULL,sex CHAR(20) NULL,country VARCHAR(50) NULL,state CHAR(50) NULL,date_of_birth VARCHAR(30) NULL,postal_code INT NULL,lga VARCHAR(50) NULL,profession VARCHAR(50) NUll,marital_status VARCHAR(50) NULL,religion VARCHAR(50) NULL,nk_name VARCHAR(50) NULL,nk_phone VARCHAR(20) NULL, presence INT NULL, date CHAR(30) NULL, sign char(20) NULL, primary key(id))")
-        #rows = cursor.fetchall()
+        cursor.execute("create table IF NOT EXISTS users(id INT AUTO_INCREMENT, first_name VARCHAR(30) NULL,last_name VARCHAR(30) NULL, email VARCHAR(60) NOT NULL,phone VARCHAR(20) NULL,password VARCHAR(50) NOT NULL,profile_pics VARCHAR(100) NULL,estate_name VARCHAR(50) NULL,apartment_address VARCHAR(100) NULL,flat_number INT NULL,Gender CHAR(20) NULL,country VARCHAR(50) NULL,state CHAR(50) NULL,lga VARCHAR(50) NULL,date_of_birth VARCHAR(30) NULL,occupation VARCHAR(50) NUll,marital_status VARCHAR(50) NULL,religion VARCHAR(50) NULL,role VARCHAR(25) NULL, reg_date CHAR(30) NULL, sign char(20) NULL, primary key(id))")
+        rows = cursor.fetchall()
 
         # Close the connection
         cursor.close()
         conn.close()
 
         # Render a template with the data (optional)
-        print(f"Database Connected")
-        return render_template('index.py', data=row) 
+        print(f"Database Connected !!!!")
+        response = "<div style='background-color: #FFF; box-shadow: 5px 10px #888; color:green; border: 2px #888 solid; border-radius: 20px;'><strong>Kelab:> </strong>*** Database Connected ***</div><br>"
+        
+        
+        #return render_template('index.py', data=row) 
 
     except pymysql.Error as e:
         print(f"Error connecting to MySQL: {e}")
@@ -70,7 +76,9 @@ def index():
        estate = request.form.get("estate") 
        address = request.form.get("address") 
        return "Your name is "+email + password + estate + address
-    return render_template('index.py', title=title, app_name=app_name)
+       
+
+    return render_template('index.py', title=title, app_name=app_name, data=rows, response=response)
     
 @app.route('/home/')
 def home():
