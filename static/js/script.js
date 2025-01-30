@@ -74,7 +74,7 @@ document.querySelectorAll('.faq-question').forEach((button) => {
 });
 
 
-///////////   This handles Visitors Form ///////////////////////
+///////////   This handles Visitors Form out of service///////////////////////
 function generateAccessCode() {
 	const apartment = document.getElementById('apartment').value;
 	const guestName = document.getElementById('guestName').value;
@@ -91,11 +91,13 @@ function generateAccessCode() {
 
 //////////// This Handles The Sign up Page /////////////////
 function submitForm() {
-	const username = document.getElementById('username').value;
-	const password = document.getElementById('password').value;
-	const repeatPassword = document.getElementById('repeatPassword').value;
-	const estateName = document.getElementById('estateName').value;
-	const houseAddress = document.getElementById('houseAddress').value;
+	const email = document.getElementById('owners_email').value;
+	const password = document.getElementById('owners_password').value;
+	const repeatPassword = document.getElementById('owners_repeatPassword').value;
+	const estateName = document.getElementById('owners_estateName').value;
+	const houseAddress = document.getElementById('owners_houseAddress').value;
+	const flat = document.getElementById('owners_flat').value;
+	const role = document.getElementById('owners_role').value;
 
 	if (password !== repeatPassword) {
 		alert('Passwords do not match!');
@@ -103,13 +105,15 @@ function submitForm() {
 	}
 
 	const formData = {
-		username,
+		email,
 		password,
 		estateName,
-		houseAddress
+		houseAddress,
+		flat,
+		role
 	};
 
-	alert(`Form Submitted:\n\nUsername: ${formData.username}\nEstate Name: ${formData.estateName}\nHouse Address: ${formData.houseAddress}`);
+	alert(`Form Submitted:\n\nEmail: ${formData.email}\nEstate Name: ${formData.estateName}\nHouse Address: ${formData.houseAddress}\nFlat: ${formData.flat}\nRole: ${formData.role}`);
 }
 
 
@@ -271,13 +275,13 @@ function copyToClipboard() {
 //////////////// This Code Handles The Sign In Page ///////////////
 document.getElementById("signInForm").addEventListener("submit", function(event) {
 	event.preventDefault(); // Prevent default form submission
-	const usernameEmail = document.getElementById("usernameEmail").value;
-	const password = document.getElementById("password").value;
+	const usernameEmail = document.getElementById("login_email").value;
+	const password = document.getElementById("login_password").value;
 
 	if (usernameEmail === "" || password === "") {
 		alert("Please fill in all fields.");
 	} else {
-		alert(`Welcome, ${usernameEmail}!`);
+		//alert(`Processing..... ${usernameEmail} in...`);
 		// Add logic for actual sign-in here (e.g., API call)
 	}
 });

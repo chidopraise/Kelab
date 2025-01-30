@@ -109,6 +109,7 @@ body {
 }
 .form-section {
 	margin-top: 20px;
+	color: #000000;
 }
 .generate-btn {
 	background-color: black;
@@ -146,6 +147,13 @@ body {
 .header-buttons .btn {
 	border-radius: 30px;
 	margin-left: 10px;
+	background-color: #000;
+	color: #FFF;
+}
+
+.header-buttons .btn:hover {
+	background-color: #FFF;
+	color: #000;
 }
 
 .profile_body {
@@ -153,6 +161,7 @@ body {
 	color: black;
 	padding: 20px;
 }
+
 .btn-success {
 	background-color: limegreen;
 	border: none;
@@ -297,7 +306,7 @@ body {
 
 .residents-btn {
 	display: block;
-	width: 30%;
+	width: ;
 	text-align: left;
 	border-radius: 30px;
 	padding: 10px 20px;

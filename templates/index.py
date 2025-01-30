@@ -41,7 +41,7 @@
 
 
 
-<div id="home" class="container-fluid p-3 section home1 owner1 reg_resident1 visitor1 signup1 profile1 monthly_dues1 visitors_code1 signin1 payments1 residents1 security1" title="home1">
+<div id="home" class="container-fluid p-3 section home1 owner1 reg_resident1 visitor1 signup1 profile1 monthly_dues1 visitors_code1 signin1 payments1 residents1 signup_intro1 security1" title="home1">
     <!-- Navigation -->
     <div class="d-flex justify-content-between align-items-center mb-3 bg-black fixed-top">
         <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,10 +82,16 @@
                     <a id="reg_residents1" class="nav-link navigate" href="{{ url_for('reg_residents') }}">Reg residents</a>
                 </li>
                 <li class="nav-item">
-                    <a id="signin1" class="nav-link navigate" href="{{ url_for('signin') }}">Log in</a>
+                    {% if session['user_id'] %}
+                        <a id="home1" class="nav-link navigate" href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a id="signin1" class="nav-link navigate" href="{{ url_for('signin') }}">Log in</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
-                    <a id="signup1" class="nav-link navigate btn btn-dark text-light" href="{{ url_for('signup') }}">Sign up</a>
+                    {% if not session['user_id'] %}
+                        <a id="signup_intro1" class="nav-link navigate btn btn-dark text-light" href="{{ url_for('signup_intro') }}">Sign up</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
@@ -93,7 +99,15 @@
     <!-- Search Bar -->
     <div class="mb-3 section home1">
     <br />
-    <br />
+    
+    <!-------------- Here I Placed The Users Firsr Name And Last Name ON Login ---->
+    <!-------------- Here I Placed The Users Firsr Name And Last Name ON Login ---->
+    {% if session['user_id'] %}
+        <div class="text-center text-black">Hello! {{ session['first_name']+"  "+session['last_name'] }} </div>
+    {% endif %}
+    <!------------ First And Last Name Ends Here ---------------->
+    <!------------ First And Last Name Ends Here ---------------->
+    
     <br />
         <input type="text" class="form-control search-bar" placeholder="Search">
     </div>
@@ -147,41 +161,227 @@
 
 
 
+<!--------------------------- The Sign Up Intro Page Starts Here ------------------------>
+<!--------------------------- The Sign Up Intro Page Starts Here ------------------------>
+
+<!-- Header Section -->
+<div id="signup_intro" class="align-items-center mb-3 section signup_intro1" title="signup_intro1">
+    <a href="{{ url_for('home') }}" class="back-btn me-3">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <h3 class="text-center mb-4 text-black">Sign Up</h3>
+</div>
+
+<div class="containerr section signup_intro1">
+    <!-- Sign Up Intro Options -->
+    <button class="residents-btn" onclick="window.location.href = {{ url_for('admin_signup')}}">Admin Sign Up</button>
+    <button class="residents-btn" onclick="window.location.href = {{ url_for('owners_signup')}}">Owners Sign Up</button>
+    <button class="residents-btn" onclick="window.location.href = {{ url_for('resident_signup')}}">Tenant Sign Up</button>
+    <button class="residents-btn" onclick="window.location.href = {{ url_for('security_signup')}}">Security Sign Up</button>
+</div>
+<!--------------------------- The Sign Up Intro Page Ends Here ------------------------>
+<!--------------------------- The Sign Up Intro Page Ends Here ------------------------>
 
 
 
-<!--------------------------- The Sign up Page Starts Here ------------------------>
-<!--------------------------- The Sign up Page Starts Here ------------------------>
 
-<div id="signup" class="section signup1 signup_body" title="signup1">
+
+
+
+
+
+<!------------------------- The Admin Sign up Page Starts Here ------------------------>
+<!------------------------- The Admin Sign up Page Starts Here ------------------------>
+
+<div id="admin_signup" class="section admin_signup1 signup_body" title="admin_signup1">
     <div class="container">
         <div class="header-buttons">
-            <button class="btn btn-outline-light">SIGN IN</button>
-            <button class="btn btn-outline-light">SIGN UP</button>
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signin') }}">SIGN IN</button>
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signup_intro') }}">SIGN UP</button>
         </div>
+        <a href="{{ url_for('signup_intro') }}" class="back-btn me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
         <h2 class="text-center">SIGN UP</h2>
         <form action="{{ url_for('index') }}" method="post" id="signUpForm">
             <div class="mb-3">
                 <input type="email" class="form-control" id="username" name="email" placeholder="Username/Email" required>
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="admin_password" name="password" placeholder="Password" required>
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="repeatPassword" name="re_password" placeholder="Repeat Password" required>
+                <input type="password" class="form-control" id="admin_repeatPassword" name="re_password" placeholder="Repeat Password" required>
             </div>
             <div class="mb-3">
                 <input type="text" class="form-control" id="estateName" name="estate" placeholder="Estate Name" required>
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" id="houseAddress" name="address" placeholder="Owner House Address" required>
+                <input type="text" class="form-control" id="houseAddress" name="address" placeholder="Admin House Address" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100 bg-black" name="signup" onclick="submitForm()">SIGN UP</button>
+            <div class="mb-3">
+                <input type="number" class="form-control" id="flat" name="flat" placeholder="Your Flat Number">
+            </div>
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="role" name="role" placeholder="role" value="admin" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 bg-black" name="admin_signup" onclick="submitForm()">Submit</button>
         </form>
     </div>
 </div>
-<!--------------------------- The Sign up Page Ends Here ------------------------>
-<!--------------------------- The Sign up Page Ends Here ------------------------>
+<!--------------------------- The Admin Sign up Page Ends Here ------------------------>
+<!--------------------------- The Admin Sign up Page Ends Here ------------------------>
+
+
+
+
+
+
+
+
+
+
+<!------------------------- The Owners Sign up Page Starts Here ------------------------>
+<!------------------------- The Owners Sign up Page Starts Here ------------------------>
+
+<div id="owners_signup" class="section owners_signup1 signup_body" title="owners_signup1">
+    <div class="container">
+        <div class="header-buttons">
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signin') }}">SIGN IN</button>
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signup_intro') }}">SIGN UP</button>
+        </div>
+        <a href="{{ url_for('signup_intro') }}" class="back-btn me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="text-center">SIGN UP</h2>
+        <form action="{{ url_for('index') }}" method="post" id="signUpForm">
+            <div class="mb-3">
+                <input type="email" class="form-control" id="owners_email" name="owners_email" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="owners_password" name="owners_password" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="owners_repeatPassword" name="owners_re_password" placeholder="Repeat Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="owners_estateName" name="owners_estate" placeholder="Estate Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="owners_houseAddress" name="owners_address" placeholder="Owner House Address" required>
+            </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" id="owners_flat" name="owners_flat" placeholder="Your Flat Number">
+            </div>
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="owners_role" name="owners_role" placeholder="role" value="owner" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 bg-black" name="owners_signup" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+</div>
+<!--------------------------- The Owners Sign up Page Ends Here ------------------------>
+<!--------------------------- The Owners Sign up Page Ends Here ------------------------>
+
+
+
+
+
+
+
+
+
+<!------------------------- The resident Sign up Page Starts Here ------------------------>
+<!------------------------- The resident Sign up Page Starts Here ------------------------>
+
+<div id="resident_signup" class="section resident_signup1 signup_body" title="resident_signup1">
+    <div class="container">
+        <div class="header-buttons">
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signin') }}">SIGN IN</button>
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signup_intro') }}">SIGN UP</button>
+        </div>
+        <a href="{{ url_for('signup_intro') }}" class="back-btn me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="text-center">SIGN UP</h2>
+        <form action="{{ url_for('index') }}" method="post" id="signUpForm">
+            <div class="mb-3">
+                <input type="email" class="form-control" id="username" name="email" placeholder="Username/Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="resident_password" name="password" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="resident_repeatPassword" name="re_password" placeholder="Repeat Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="estateName" name="estate" placeholder="Estate Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="houseAddress" name="address" placeholder="Resident's House Address" required>
+            </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" id="flat" name="flat" placeholder="Your Flat Number">
+            </div>
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="role" name="role" placeholder="role" value="renant" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 bg-black" name="resident_signup" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+</div>
+<!--------------------------- The resident Sign up Page Ends Here ------------------------>
+<!--------------------------- The resident Sign up Page Ends Here ------------------------>
+
+
+
+
+
+
+
+
+
+<!------------------------- The Security Sign up Page Starts Here ------------------------>
+<!------------------------- The Security Sign up Page Starts Here ------------------------>
+
+<div id="security_signup" class="section security_signup1 signup_body" title="security_signup1">
+    <div class="container">
+        <div class="header-buttons">
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signin') }}">SIGN IN</button>
+            <button class="btn btn-outline-light" onclick="window.location.href = {{ url_for('signup_intro') }}">SIGN UP</button>
+        </div>
+        <a href="{{ url_for('signup_intro') }}" class="back-btn me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="text-center">SIGN UP</h2>
+        <form action="{{ url_for('index') }}" method="post" id="signUpForm">
+            <div class="mb-3">
+                <input type="email" class="form-control" id="security_email" name="security_email" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="security_password" name="security_password" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="security_repeatPassword" name="re_password" placeholder="Repeat Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="security_estateName" name="security_estate" placeholder="Estate Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="security_houseAddress" name="security_address" placeholder="Security House Address <input To be Placed Under Admin>" required>
+            </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" id="security_flat" name="securityflat" placeholder="Your Flat Number">
+            </div>
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="security_role" name="security_role" placeholder="role" value="tenant" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 bg-black" name="security_signup" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+</div>
+<!--------------------------- The Security Sign up Page Ends Here ------------------------>
+<!--------------------------- The Security Sign up Page Ends Here ------------------------>
 
 
 
@@ -198,12 +398,15 @@
 <div id="signin" class="login-container section signin1" title="signin1">
     <h3 class="text-center mb-4 text-black">SIGN IN</h3>
     <!-- Sign In Form -->
-    <form id="signInForm">
+    <form action="{{ url_for('index') }}" method="post" id="ssignInForm">
         <div class="mb-3">
-            <input type="text" id="usernameEmail" class="form-control" placeholder="Username/Email" required>
+            <input type="text" id="login_email" class="form-control" name="login_email" placeholder="Email/Phone No." required>
         </div>
         <div class="mb-3">
-            <input type="password" id="password" class="form-control" placeholder="Password" required>
+            <input type="password" id="login_password" class="form-control" name="login_password" placeholder="Password" required>
+        </div>
+        <div class="mb-3">
+            <input type="hidden" id="form_role" class="form-control" name="form_role" placeholder="Form Role" value="login">
         </div>
         <div class="mb-3 forgot-password">
             <a href="#" onclick="forgotPassword()" class="text-black">Forget Password</a>
@@ -471,35 +674,43 @@
 
     <div class="tab-content" id="visitorTabsContent">
         <div class="tab-pane fade show active form-section" id="one-time" role="tabpanel" aria-labelledby="one-time-tab">
-            <form>
+            <form action="{{ url_for('guest') }}" method="post">
                 <div class="mb-3">
-                    <label for="apartment" class="form-label">Apartment:</label>
-                    <input type="text" class="form-control" id="apartment" placeholder="Flat 7, Plot 9, Road 1, Centenary Gardens">
+                    <label for="guest_apartment" class="form-label">Apartment:</label>
+                    <input type="text" class="form-control" id="guest_apartment" name="guest_apartment" placeholder="Flat 7, Plot 9, Road 1, Centenary Gardens">
                 </div>
                 <div class="mb-3">
-                    <label for="guestName" class="form-label">Guest Name:</label>
-                    <input type="text" class="form-control" id="guestName" placeholder="Guest Name">
+                    <label for="guest_name" class="form-label">Guest Name:</label>
+                    <input type="text" class="form-control" id="guest_name" name="guest_name" placeholder="Guest Name">
                 </div>
                 <div class="mb-3">
-                    <label for="arrivalDate" class="form-label">Select Arrival Date:</label>
-                    <input type="date" class="form-control" id="arrivalDate">
+                    <label for="guest_gender" class="form-label">Guest Gender:</label>
+                    <select type="text" class="form-control" id="guest_gender" name="guest_gender" required>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="arrival_date" class="form-label">Select Arrival Date:</label>
+                    <input type="date" class="form-control" id="arrival_date" name="arrival_date" value="{{ date }}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Expected Time of Arrival:</label>
                     <div class="row">
                         <div class="col">
-                            <input type="time" class="form-control" id="arrivalTimeFrom">
+                            <input type="time" class="form-control" id="arrival_time_from" name="arrival_time_from">
                         </div>
+                        to
                         <div class="col">
-                            <input type="time" class="form-control" id="arrivalTimeTo">
+                            <input type="time" class="form-control" id="arrival_time_to" name="arrival_time_to">
                         </div>
                     </div>
                 </div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" type="checkbox" id="shareQRCode">
+                    <input class="form-check-input" type="checkbox" id="shareQRCode" name="shareQRCode">
                     <label class="form-check-label" for="shareQRCode">Share QRCode</label>
                 </div>
-                <button type="button" class="generate-btn" onclick="generateAccessCode()">GENERATE ACCESS CODE</button>
+                <button type="submit" class="generate-btn" nclick="generateAccessCode()">GENERATE ACCESS CODE</button>
             </form>
         </div>
 
@@ -536,11 +747,13 @@
         </a>
         <h1 class="header text-black">Invite Visitor</h1>
     </div>
-
     <!-- Access Code Display -->
     <div class="code-display" id="accessCode">
-        Access Code: <span id="code">12345XYZ</span><br>
-        Other information here
+        Access Code: <span id="code">{{ code }}</span><br>
+        Guest Name: <span id="code1">{{ name }}</span><br>
+        Guest Gender: <span id="code2">{{ gender }}</span><br>
+        Arrival Date: <span id="code3">{{ arrival_date }}</span><br>
+        Arrival Time: <span id="code4">{{ arrival_time }}</span><br>
     </div>
 
     <!-- Action Buttons -->
@@ -649,7 +862,7 @@
 <!--------------------------- The foot section Starts Here ------------------------>
 <!--------------------------- The foot section Starts Here ------------------------>
 
-<footer class="foot section home1 profile1 monthly_dues1 owner1 reg_resident1 visitors_code1 residents1 footer bg-black text-light">
+<footer class="foot section home1 profile1 monthly_dues1 owner1 reg_resident1 visitors_code1 residents1 signup_intro1 footer bg-black text-light">
     <p class="mb-0" style="position:sticky; bottom:25%; left:30%; right:30%; font-weight:bold; ">Powered by: Ixora Consulting Ltd</p>
 </footer>
 

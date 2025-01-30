@@ -7,7 +7,7 @@
 </head>
     <body id="body">
         <script>
-            window.location.href = "/#signup";
+            window.location.href = "/#owners_signup";
         </script>
 
     </body>
